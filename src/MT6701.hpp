@@ -24,6 +24,7 @@ public:
            int rpm_filter_size = RPM_FILTER_SIZE);
     ~MT6701();
     void begin();
+    void begin(int SDA, int SCL);
     float getAngleRadians();
     float getAngleDegrees();
     int getFullTurns();
