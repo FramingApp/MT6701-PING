@@ -41,6 +41,16 @@ void MT6701::begin()
     xSemaphoreGive(rpmFilterMutex);
 }
 
+void MT6701::begin(int SDA, int SCL)
+{
+    Wire.begin(SDA, SCL);
+    Wire.setClock(400000);
+    xTaskCreatePinnedToCore(updateTask, "MT6701 update task", 2048, this, 2, NULL, 1);
+    xSemaphoreTake(rpmFilterMutex, portMAX_DELAY);
+    rpmFilter.resize(rpmFilterSize);
+    xSemaphoreGive(rpmFilterMutex);
+}
+
 /**
  * @brief Returns the shaft angle of the encoder in radians.
  *
